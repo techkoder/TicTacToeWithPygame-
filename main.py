@@ -34,27 +34,31 @@ board = [' ' for i in range(10)]
 
 music = pg.mixer.music.load("sound\game_sound.mp3")
 
+#function to check if a element in the board is empty 
 def spaceisfree(pos):
     if board [pos] == ' ':
         return True
 
+#function to insert a letter in the board
 def insertletter(pos,letter):
     if spaceisfree(pos):
         board[pos] = letter
     
+# function to check if someone has won the game
 def iswinner(bo,le):
     if bo[1] == le and bo[2] == le and bo[3] == le or bo[4] == le and bo[5] == le and bo[6] == le or bo[7] == le and bo [8] == le and bo[9] == le or bo[1] == le and bo[4] == le and bo[7] == le or bo[2] == le and bo[5] == le and bo[8] == le or bo[3] == le and bo[6] == le and bo[9] == le or bo[1] == le and bo[5] == le and bo[9] == le or bo[3] == le and bo[5] == le and bo[7] == le:
         return True
     else:
         return False
-    
+
+# funtion to check if the board is full    
 def isboardfull():
     if board.count(' ') <= 1:
         return True
     else:
         return False
 
-#creating the buttons
+#creating a class for buttons 
 class button():
     def __init__(self,x,y,width,height,colour):
         self.x = x
@@ -64,11 +68,14 @@ class button():
         self.colour = colour
     def draw(self):
         pg.draw.rect(s,self.colour,(self.x,self.y,self.width,self.height))
+
+        #method to check if the mouse is over a button
     def isover(self,pos):
         if pos[0] > self.x and pos[0] < self.x + self.width:
             if pos[1] > self.y and pos[1] < self.y + self.height:
                 return True
 
+# initialing and creating the buttons
 button1 = button(150,75,200,200,white)
 button2 = button(350,75,200,200,white)
 button3 = button(550,75,200,200,black)
@@ -79,6 +86,7 @@ button7 = button(150,475,200,200,black)
 button8 = button(350,475,200,200,black)
 button9 = button(550,475,200,200,black)
 
+# function that checks the position of the mouse and gives hints for x
 def hint_x(pos):
     if button1.isover(pos):
         if board[1] == ' ':
@@ -108,6 +116,7 @@ def hint_x(pos):
         if board[9] == ' ':
             s.blit(x_hint,(button9.x+5,button9.y+5))
 
+# function that checks the position of the mouse and gives hints for o
 def hint_o(pos):
     if button1.isover(pos):
         if board[1] == ' ':
@@ -137,6 +146,7 @@ def hint_o(pos):
         if board[9] == ' ':
             s.blit(o_hint,(button9.x+5,button9.y+5))
 
+# function tto check if there is an element filled in the board list and places the letter in the board accordingly 
 def checkboard():
     if board[1] == 'x':
         s.blit(x,(button1.x+5,button1.y+5))
@@ -196,11 +206,12 @@ def messagebox(text,description = "Game over"):
     window.destroy()
     window.quit()
 
+# function to reset the board
 def reset_board():
     global board
     board = [' ' for i in range(10)]
 
-#game loop
+# The main game loop
 def main():
     pg.mixer.music.play(-1)
     run = True
